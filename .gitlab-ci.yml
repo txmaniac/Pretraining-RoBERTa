@@ -1,0 +1,23 @@
+image: home.rniapps.net:28081/rni-infra/python3:py3
+
+cache:
+    paths:
+        - .cache/pip
+        - venv/
+
+before_script:
+    - python3 -V
+    - pip3 --default-timeout=3000 install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+    - pip3 --default-timeout=3000 install -r requirements.txt
+
+squad_training:
+    script:
+        - python3 privaseer_unzip.py /data/U2D2P2I/
+    tags:
+        - CPU_COMPUTE_Q4
+    only:
+        - master
+        - main
+    when: manual
