@@ -6,8 +6,8 @@ if __name__ == "__main__":
     #   argv[1]: path where model should be downloaded
     #   argv[2]: path where tokenizer should be downloaded
 
-    model_path = list_of_args[1]
-    tokenizer_path = list_of_args[2] if len(list_of_args) > 1 else model_path
+    model_path = list_of_args[0]
+    tokenizer_path = list_of_args[1] if len(list_of_args) > 1 else model_path
 
     tokenizer = RobertaTokenizer.from_pretrained("roberta-base")
     config = RobertaConfig.from_pretrained("roberta-base")
