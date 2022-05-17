@@ -14,11 +14,11 @@ before_script:
 
 pretraining:
     script:
-        - python3 download_roberta.py /data/roberta-base
+        - python3 download_roberta.py 
     tags:
         - CPU_COMPUTE_Q4
     only:
         - main
         - master
-        
+
     when: manual

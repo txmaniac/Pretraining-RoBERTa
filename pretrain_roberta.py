@@ -16,6 +16,8 @@ if __name__ == "__main__":
 
     dir_path = sys.argv[1]
     model_path = sys.argv[2]
+    logging_path = sys.argv[3]
+    output_path = sys.argv[4]
 
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
     config = RobertaConfig.from_pretrained(model_path)
@@ -33,15 +35,16 @@ if __name__ == "__main__":
     print('Setting training args...')
     training_args = TrainingArguments(
         do_train=True,
-        output_dir = 'checkpoint_model',
-        per_device_train_batch_size=4,
+        output_dir = output_path,
+        per_device_train_batch_size=16,
         learning_rate=6e-4,
         warmup_steps=30000,
         adam_epsilon=1e-6,
         adam_beta1=0.9,
         adam_beta2=0.98,
         weight_decay=0.01,
-        max_steps=500000
+        max_steps=500000,
+        logging_dir=logging_path
     )
 
     print('Preparing Trainer...')
