@@ -1,4 +1,4 @@
-image: home.rniapps.net:28081/rni-infra/torch:py36
+image: nvcr.io/nvidia/pytorch:20.12-py3
 
 cache:
     paths:
@@ -14,9 +14,9 @@ before_script:
 
 pretraining:
     script:
-        - python3 download_roberta.py 
+        - python3 pretrain_roberta.py /data/U2D2P2I/PrivaSeer /data/U2D2P2I/PrivaSeer_Demoset /data/roberta-base /data/pretraining-on-privaseer/logs /data/pretraining-on-privaseer/checkpoints
     tags:
-        - CPU_COMPUTE_Q4
+        - One_16GB_GPU
     only:
         - main
         - master
