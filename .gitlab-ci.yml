@@ -12,11 +12,22 @@ before_script:
     - source venv/bin/activate
     - pip3 --default-timeout=3000 install -r requirements.txt
 
-pretraining:
+pretraining_on_32GB:
     script:
         - python3 pretrain_roberta.py /data/U2D2P2I/PrivaSeer /data/U2D2P2I/PrivaSeer_Demoset /data/roberta-base /data/pretraining-on-privaseer/logs /data/pretraining-on-privaseer/checkpoints
     tags:
         - One_32GB_GPU
+    only:
+        - main
+        - master
+
+    when: manual
+
+pretraining_on_16GB:
+    script:
+        - python3 pretrain_roberta.py /data/U2D2P2I/PrivaSeer /data/U2D2P2I/PrivaSeer_Demoset /data/roberta-base /data/pretraining-on-privaseer/logs /data/pretraining-on-privaseer/checkpoints
+    tags:
+        - One_16GB_GPU
     only:
         - main
         - master
