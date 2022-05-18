@@ -11,7 +11,7 @@ before_script:
     - virtualenv venv
     - source venv/bin/activate
     - pip3 --default-timeout=3000 install -r requirements.txt
-    - python3 -m nltk.downloader punkt
+    - python -m nltk.downloader -d /usr/local/share/nltk_data all
 
 pretraining_on_32GB:
     script:
