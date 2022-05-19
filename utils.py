@@ -39,6 +39,7 @@ def read_dataset(path, model_path):
         if i == 5:
             break
         else:
+            i+=1
             folder_path = os.path.join(path, folder)
             list_of_files = os.listdir(folder_path)
             for file in list_of_files:
@@ -46,7 +47,6 @@ def read_dataset(path, model_path):
                     text = f.read()
                     text = normalize_answer(text)
                     list_of_sentences += sent_tokenize(text)
-                    i+=1
 
     data_dict = {'sentences': list_of_sentences, 'labels': tokenizer(list_of_sentences, truncation=True, padding=True)['input_ids']}
 
