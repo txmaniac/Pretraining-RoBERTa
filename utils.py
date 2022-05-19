@@ -33,15 +33,20 @@ def read_dataset(path, model_path):
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
     list_of_folders = os.listdir(path)
     list_of_sentences = []
-
-    for folder in list_of_folders:
-        folder_path = os.path.join(path, folder)
-        list_of_files = os.listdir(folder_path)
-        for file in tqdm(list_of_files, desc='Converting policies to sentences',position=0, leave=True):
-            with open(os.path.join(folder_path  ,file),encoding="utf-8") as f:
-                text = f.read()
-                text = normalize_answer(text)
-                list_of_sentences += sent_tokenize(text)    
+    i=0
+    for folder in tqdm(list_of_folders, desc='Converting policies to sentences',position=0, leave=True):
+        
+        if i == 5:
+            break
+        else:
+            folder_path = os.path.join(path, folder)
+            list_of_files = os.listdir(folder_path)
+            for file in list_of_files:
+                with open(os.path.join(folder_path  ,file),encoding="utf-8") as f:
+                    text = f.read()
+                    text = normalize_answer(text)
+                    list_of_sentences += sent_tokenize(text)
+                    i+=1
 
     data_dict = {'sentences': list_of_sentences, 'labels': tokenizer(list_of_sentences, truncation=True, padding=True)['input_ids']}
 
