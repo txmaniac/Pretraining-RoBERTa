@@ -34,7 +34,7 @@ def read_dataset(path, model_path):
     list_of_folders = os.listdir(path)
     list_of_sentences = []
     i=0
-    for folder in tqdm(list_of_folders[:5], desc='Converting policies to sentences',position=0, leave=True):
+    for folder in tqdm(list_of_folders[:1], desc='Converting policies to sentences',position=0, leave=True):
         folder_path = os.path.join(path, folder)
         list_of_files = os.listdir(folder_path)
         for file in list_of_files:
