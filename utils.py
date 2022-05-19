@@ -34,19 +34,14 @@ def read_dataset(path, model_path):
     list_of_folders = os.listdir(path)
     list_of_sentences = []
     i=0
-    for folder in tqdm(list_of_folders, desc='Converting policies to sentences',position=0, leave=True):
-        
-        if i == 5:
-            break
-        else:
-            i+=1
-            folder_path = os.path.join(path, folder)
-            list_of_files = os.listdir(folder_path)
-            for file in list_of_files:
-                with open(os.path.join(folder_path  ,file),encoding="utf-8") as f:
-                    text = f.read()
-                    text = normalize_answer(text)
-                    list_of_sentences += sent_tokenize(text)
+    for folder in tqdm(list_of_folders[:5], desc='Converting policies to sentences',position=0, leave=True):
+        folder_path = os.path.join(path, folder)
+        list_of_files = os.listdir(folder_path)
+        for file in list_of_files:
+            with open(os.path.join(folder_path  ,file),encoding="utf-8") as f:
+                text = f.read()
+                text = normalize_answer(text)
+                list_of_sentences += sent_tokenize(text)
 
     data_dict = {'sentences': list_of_sentences, 'labels': tokenizer(list_of_sentences, truncation=True, padding=True)['input_ids']}
 
