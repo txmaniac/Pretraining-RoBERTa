@@ -25,9 +25,11 @@ if __name__ == "__main__":
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
 
-    train_dataset = read_dataset(train_dir_path, model_path)
-    eval_dataset = read_dataset(eval_dir_path, model_path)
+    train_dataset, train_examples = read_dataset(train_dir_path, model_path, 0)
+    eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path, 0)
 
+    train_batch_size = 8
+    max_train_steps = train_examples / train_batch_size
     data_collator = DataCollatorForLanguageModeling(
         mlm=True,
         tokenizer=tokenizer,
@@ -38,15 +40,17 @@ if __name__ == "__main__":
     training_args = TrainingArguments(
         do_train=True,
         output_dir = output_path,
-        per_device_train_batch_size=8,
+        per_device_train_batch_size=train_batch_size,
         learning_rate=6e-4,
-        warmup_steps=30000,
+        warmup_steps=300,
+        save_steps=max_train_steps/5,
         adam_epsilon=1e-6,
         adam_beta1=0.9,
         adam_beta2=0.98,
         weight_decay=0.01,
-        max_steps=500000,
-        logging_dir=logging_path
+        max_steps=max_train_steps,
+        logging_dir=logging_path,
+        resume_from_checkpoint=True
     )
 
     print('Preparing Trainer...')

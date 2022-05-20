@@ -28,13 +28,13 @@ def normalize_answer(s):
 
   return remove_punc(white_space_fix(lower(s)))
 
-def read_dataset(path, model_path):
+def read_dataset(path, model_path, i):
     # takes dataset directory path and fetches all the contents of each and every txt file and stores them as a dataset object from HuggingFace
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
     list_of_folders = os.listdir(path)
     list_of_sentences = []
-    i=0
-    for folder in tqdm(list_of_folders[:1], desc='Converting policies to sentences',position=0, leave=True):
+
+    for folder in tqdm(list_of_folders[i], desc='Converting policies to sentences',position=0, leave=True):
         folder_path = os.path.join(path, folder)
         list_of_files = os.listdir(folder_path)
         for file in list_of_files:
@@ -49,4 +49,4 @@ def read_dataset(path, model_path):
     dataset = dataset.map(lambda examples: tokenizer(examples['sentences'], truncation=True, padding=True), batched=True)
     dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 
-    return dataset
+    return dataset, len(dataset)
