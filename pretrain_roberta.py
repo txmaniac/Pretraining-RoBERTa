@@ -29,7 +29,7 @@ if __name__ == "__main__":
     eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path, 0)
 
     train_batch_size = 8
-    max_train_steps = train_examples / train_batch_size
+    max_train_steps = int(train_examples / train_batch_size)
     data_collator = DataCollatorForLanguageModeling(
         mlm=True,
         tokenizer=tokenizer,
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         per_device_train_batch_size=train_batch_size,
         learning_rate=6e-4,
         warmup_steps=300,
-        save_steps=max_train_steps/5,
+        save_steps = int(max_train_steps/5),
         adam_epsilon=1e-6,
         adam_beta1=0.9,
         adam_beta2=0.98,
