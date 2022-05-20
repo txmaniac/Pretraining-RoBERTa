@@ -25,8 +25,8 @@ if __name__ == "__main__":
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
 
-    train_dataset, train_examples = read_dataset(train_dir_path, model_path, 0)
-    eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path, 0)
+    train_dataset, train_examples = read_dataset(train_dir_path, model_path, 1)
+    eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path, 1)
 
     train_batch_size = 8
     max_train_steps = int(train_examples / train_batch_size)
