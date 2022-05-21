@@ -19,6 +19,7 @@ if __name__ == "__main__":
     model_path = sys.argv[3]
     logging_path = sys.argv[4]
     output_path = sys.argv[5]
+    resume_path = sys.argv[6]
 
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
     config = RobertaConfig.from_pretrained(model_path)
@@ -50,7 +51,7 @@ if __name__ == "__main__":
         weight_decay=0.01,
         max_steps=max_train_steps,
         logging_dir=logging_path,
-        resume_from_checkpoint=True
+        resume_from_checkpoint=resume_path
     )
 
     print('Preparing Trainer...')
