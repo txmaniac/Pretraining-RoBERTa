@@ -26,9 +26,11 @@ if __name__ == "__main__":
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
 
+    print('Loading dataset...')
     train_dataset, train_examples = read_dataset(train_dir_path, model_path, 1)
     eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path, 1)
 
+    print('Loading Collator...')
     train_batch_size = 8
     max_train_steps = int(train_examples / train_batch_size)
     data_collator = DataCollatorForLanguageModeling(
