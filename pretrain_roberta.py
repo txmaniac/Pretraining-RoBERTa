@@ -52,8 +52,7 @@ if __name__ == "__main__":
         adam_beta2=0.98,
         weight_decay=0.01,
         max_steps=max_train_steps,
-        logging_dir=logging_path,
-        resume_from_checkpoint=resume_path
+        logging_dir=logging_path
     )
 
     print('Preparing Trainer...')
@@ -67,7 +66,7 @@ if __name__ == "__main__":
 
     print('Training starts...')
     start = time.time()
-    trainer.train()
+    trainer.train(resume_from_checkpoint=resume_path)
     end = time.time()
 
     print(f'Training completed in {end-start}')
