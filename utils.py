@@ -57,8 +57,9 @@ def read_dataset(path, model_path):
         
         inputs = tokenizer(
             sentences,
+            max_length=512,
             truncation=True,
-            padding=True,
+            padding='max_length',
             return_tensors='pt'
         )
 
