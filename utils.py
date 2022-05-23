@@ -1,5 +1,5 @@
 from encodings import utf_8
-from datasets import Dataset
+from datasets import load_dataset
 import torch
 from tqdm import tqdm
 # from transformers
@@ -28,6 +28,7 @@ def normalize_answer(s):
 
   return remove_punc(white_space_fix(lower(s)))
 
+
 def extract_sentences(path, model_path):
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
     list_of_folders = os.listdir(path)
@@ -46,16 +47,24 @@ def extract_sentences(path, model_path):
 
 def read_dataset(path, model_path):
     # takes dataset directory path and fetches all the contents of each and every txt file and stores them as a dataset object from HuggingFace
+    
+    dataset = load_dataset('text', data_files=path, streaming=True)
+
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
-    list_of_sentences = []
 
-    with open(path, 'r') as file:
-        list_of_sentences = [line.strip() for line in file]
+    def preprocess_function(examples):
+        sentences = [q.strip() for q in examples['text']]
+        
+        inputs = tokenizer(
+            sentences,
+            truncation="True",
+            padding="True",
+        )
 
-    data_dict = {'sentences': list_of_sentences, 'labels': tokenizer(list_of_sentences, truncation=True, padding=True)['input_ids']}
+        inputs['labels'] = sentences
+        
+        return inputs
 
-    dataset = Dataset.from_dict(data_dict)
-    dataset = dataset.map(lambda examples: tokenizer(examples['sentences'], truncation=True, padding=True), batched=True)
-    dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
+    tokenized_dataset = dataset.map(preprocess_function, batched=True)
 
-    return dataset, len(dataset)
+    return tokenized_dataset, len(tokenized_dataset)

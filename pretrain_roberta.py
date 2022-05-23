@@ -43,6 +43,7 @@ if __name__ == "__main__":
     training_args = TrainingArguments(
         do_train=True,
         output_dir = output_path,
+        evaluation_strategy="epoch",
         per_device_train_batch_size=train_batch_size,
         learning_rate=6e-4,
         warmup_steps=300,
