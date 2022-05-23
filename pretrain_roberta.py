@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     print('Training starts...')
     start = time.time()
-    trainer.train(resume_from_checkpoint=True)
+    trainer.train()
     end = time.time()
 
     print(f'Training completed in {end-start}')
