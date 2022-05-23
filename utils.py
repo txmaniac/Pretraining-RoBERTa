@@ -61,11 +61,13 @@ def read_dataset(path, model_path):
             padding=True,
         )
 
-        inputs['labels'] = sentences
+        inputs['labels'] = inputs['input_ids']
         
         return inputs
 
     tokenized_dataset = dataset.map(preprocess_function, batched=True)
+    tokenized_dataset = tokenized_dataset.remove_columns('text')
     tokenized_torch_dataset = tokenized_dataset.with_format("torch")
+    
 
     return tokenized_torch_dataset
