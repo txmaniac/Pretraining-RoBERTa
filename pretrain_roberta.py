@@ -51,7 +51,7 @@ if __name__ == "__main__":
         adam_beta1=0.9,
         adam_beta2=0.98,
         weight_decay=0.01,
-        max_steps=10000000,
+        max_steps=80000000,
         logging_dir=logging_path
     )
 

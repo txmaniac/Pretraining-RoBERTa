@@ -57,8 +57,8 @@ def read_dataset(path, model_path):
         
         inputs = tokenizer(
             sentences,
-            truncation="True",
-            padding="True",
+            truncation=True,
+            padding=True,
         )
 
         inputs['labels'] = sentences
