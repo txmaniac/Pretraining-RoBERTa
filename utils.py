@@ -66,5 +66,6 @@ def read_dataset(path, model_path):
         return inputs
 
     tokenized_dataset = dataset.map(preprocess_function, batched=True)
+    tokenized_torch_dataset = tokenized_dataset.with_format("torch")
 
-    return tokenized_dataset
+    return tokenized_torch_dataset
