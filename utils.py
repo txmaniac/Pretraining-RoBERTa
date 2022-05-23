@@ -59,6 +59,7 @@ def read_dataset(path, model_path):
             sentences,
             truncation=True,
             padding=True,
+            return_tensors='pt'
         )
 
         inputs['labels'] = inputs['input_ids']
