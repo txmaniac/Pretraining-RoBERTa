@@ -42,16 +42,16 @@ if __name__ == "__main__":
     training_args = TrainingArguments(
         do_train=True,
         output_dir = output_path,
-        evaluation_strategy="epoch",
+        evaluation_strategy="steps",
         per_device_train_batch_size=train_batch_size,
         learning_rate=6e-4,
         warmup_steps=300,
-        save_steps = 10000,
+        save_steps = 50000,
         adam_epsilon=1e-6,
         adam_beta1=0.9,
         adam_beta2=0.98,
         weight_decay=0.01,
-        num_train_epochs=3,
+        max_steps=10000000,
         logging_dir=logging_path
     )
 
