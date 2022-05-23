@@ -27,8 +27,8 @@ if __name__ == "__main__":
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
 
     print('Loading dataset...')
-    train_dataset, train_examples = read_dataset(train_dir_path, model_path, 1)
-    eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path, 1)
+    train_dataset, train_examples = read_dataset(train_dir_path, model_path)
+    eval_dataset, eval_examples = read_dataset(eval_dir_path, model_path)
 
     print('Loading Collator...')
     train_batch_size = 8
@@ -46,12 +46,12 @@ if __name__ == "__main__":
         per_device_train_batch_size=train_batch_size,
         learning_rate=6e-4,
         warmup_steps=300,
-        save_steps = int(max_train_steps/5),
+        save_steps = 10000,
         adam_epsilon=1e-6,
         adam_beta1=0.9,
         adam_beta2=0.98,
         weight_decay=0.01,
-        max_steps=max_train_steps,
+        num_train_epochs=3,
         logging_dir=logging_path
     )
 
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
     print('Training starts...')
     start = time.time()
-    trainer.train(resume_from_checkpoint=resume_path)
+    trainer.train(resume_from_checkpoint=True)
     end = time.time()
 
     print(f'Training completed in {end-start}')

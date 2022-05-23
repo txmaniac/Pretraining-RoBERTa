@@ -44,20 +44,13 @@ def extract_sentences(path, model_path):
 
     return list_of_sentences
 
-def read_dataset(path, model_path, i):
+def read_dataset(path, model_path):
     # takes dataset directory path and fetches all the contents of each and every txt file and stores them as a dataset object from HuggingFace
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
-    list_of_folders = os.listdir(path)
     list_of_sentences = []
 
-    for folder in list_of_folders:
-        folder_path = os.path.join(path, folder)
-        list_of_files = os.listdir(folder_path)
-        for file in list_of_files:
-            with open(os.path.join(folder_path  ,file),encoding="utf-8") as f:
-                text = f.read()
-                text = normalize_answer(text)
-                list_of_sentences += sent_tokenize(text)
+    with open(path, 'r') as file:
+        list_of_sentences = [line.strip() for line in file]
 
     data_dict = {'sentences': list_of_sentences, 'labels': tokenizer(list_of_sentences, truncation=True, padding=True)['input_ids']}
 
@@ -65,4 +58,4 @@ def read_dataset(path, model_path, i):
     dataset = dataset.map(lambda examples: tokenizer(examples['sentences'], truncation=True, padding=True), batched=True)
     dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
 
-    return dataset, len(dataset), list_of_sentences
+    return dataset, len(dataset)
