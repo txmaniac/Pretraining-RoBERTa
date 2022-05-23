@@ -30,7 +30,7 @@ if __name__ == "__main__":
     train_dataset = read_dataset(train_dir_path, model_path)
 
     print('Loading Collator...')
-    train_batch_size = 16
+    train_batch_size = 10
     
     data_collator = DataCollatorForLanguageModeling(
         mlm=True,
