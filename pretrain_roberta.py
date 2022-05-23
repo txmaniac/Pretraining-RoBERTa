@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
     print('Loading dataset...')
     train_dataset = read_dataset(train_dir_path, model_path)
+    eval_dataset = read_dataset(eval_dir_path, model_path)
 
     print('Loading Collator...')
     train_batch_size = 10
@@ -61,7 +62,8 @@ if __name__ == "__main__":
         model = model,
         args = training_args,
         data_collator = data_collator,
-        train_dataset = train_dataset
+        train_dataset = train_dataset,
+        eval_dataset = eval_dataset
     )
 
     print('Training starts...')
