@@ -30,7 +30,7 @@ if __name__ == "__main__":
     train_dataset = read_dataset(train_dir_path, model_path)
 
     print('Loading Collator...')
-    train_batch_size = 8
+    train_batch_size = 16
     
     data_collator = DataCollatorForLanguageModeling(
         mlm=True,
@@ -46,12 +46,13 @@ if __name__ == "__main__":
         per_device_train_batch_size=train_batch_size,
         learning_rate=6e-4,
         warmup_steps=300,
+        eval_steps = 100,
         save_steps = 50000,
         adam_epsilon=1e-6,
         adam_beta1=0.9,
         adam_beta2=0.98,
         weight_decay=0.01,
-        max_steps=80000000,
+        max_steps=2000000,
         logging_dir=logging_path
     )
 
