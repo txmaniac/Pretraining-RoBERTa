@@ -6,7 +6,15 @@ import sys
 if __name__ == "__main__":
     list_of_args = sys.argv[1:]
 
-    paths = [list_of_args[0]]
+    dataset_path = list_of_args[0]
+    paths = []
+
+    for i in range(1,102):
+        path = os.path.join(dataset_path, str(i))
+        list_of_files = os.listdir(path)
+
+        for file in list_of_files:
+            paths += os.path.join(path, file)
 
     tokenizer = ByteLevelBPETokenizer(lowercase=True)
 
@@ -19,7 +27,8 @@ if __name__ == "__main__":
                                     "<pad>",
                                     "</s>",
                                     "<unk>",
-                                    "<mask>",
-    ])
+                                    "<mask>"
+                                    ]
+    )
     #Save the Tokenizer to disk
     tokenizer.save_model(list_of_args[1])
