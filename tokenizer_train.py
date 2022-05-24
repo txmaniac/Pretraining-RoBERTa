@@ -1,6 +1,7 @@
 from tokenizers import ByteLevelBPETokenizer
 from tokenizers.processors import BertProcessing
 import os
+from tqdm import tqdm
 import sys
 
 if __name__ == "__main__":
@@ -9,7 +10,7 @@ if __name__ == "__main__":
     dataset_path = list_of_args[0]
     paths = []
 
-    for i in range(1,102):
+    for i in tqdm(range(1,102), desc='Reading directories'):
         path = os.path.join(dataset_path, str(i))
         list_of_files = os.listdir(path)
 
