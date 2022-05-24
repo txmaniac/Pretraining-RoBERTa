@@ -17,11 +17,14 @@ if __name__ == "__main__":
     train_dir_path = sys.argv[1]
     eval_dir_path = sys.argv[2]
     model_path = sys.argv[3]
-    logging_path = sys.argv[4]
-    output_path = sys.argv[5]
-    # resume_path = sys.argv[6]
+    tokenizer_path = sys.argv[4]
+    logging_path = sys.argv[5]
+    output_path = sys.argv[6]
+    # resume_path = sys.argv[7]
 
-    tokenizer = RobertaTokenizer.from_pretrained(model_path)
+    from transformers import PreTrainedTokenizerFast
+
+    tokenizer = PreTrainedTokenizerFast(tokenizer_file=tokenizer_path)
     config = RobertaConfig.from_pretrained(model_path)
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
