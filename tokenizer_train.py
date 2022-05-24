@@ -11,6 +11,7 @@ if __name__ == "__main__":
     list_of_args = sys.argv[1:]
 
     dataset_path = list_of_args[0]
+    tokenizer_save_path = list_of_args[1]
     paths = []
 
     for i in tqdm(range(1,102), desc='Reading directories'):
@@ -28,4 +29,4 @@ if __name__ == "__main__":
     tokenizer.train(paths, trainer)
     
     #Save the Tokenizer to disk
-    tokenizer.save_model(list_of_args[1])
+    tokenizer.save(os.path.join(tokenizer_save_path,"tokenizer.json"))
