@@ -1,5 +1,8 @@
-from tokenizers import ByteLevelBPETokenizer
-from tokenizers.processors import BertProcessing
+from tokenizers import Tokenizer
+from tokenizers.models import BPE
+from tokenizers.trainers import BpeTrainer
+from tokenizers.pre_tokenizers import Whitespace
+
 import os
 from tqdm import tqdm
 import sys
@@ -17,19 +20,12 @@ if __name__ == "__main__":
         for file in list_of_files:
             paths += os.path.join(path, file)
 
-    tokenizer = ByteLevelBPETokenizer(lowercase=True)
+    tokenizer = Tokenizer(BPE(unk_token="<unk>"))
+    trainer = BpeTrainer(special_tokens=["<s>","<pad>","</s>","<unk>","<mask>"])
 
-    paths = []
-    # Customize training
-    tokenizer.train(files=paths, vocab_size=30000, min_frequency=2,
-                    show_progress=True,
-                    special_tokens=[
-                                    "<s>",
-                                    "<pad>",
-                                    "</s>",
-                                    "<unk>",
-                                    "<mask>"
-                                    ]
-    )
+    tokenizer.pre_tokenizer = Whitespace()
+    files = paths
+    tokenizer.train(files, trainer)
+    
     #Save the Tokenizer to disk
     tokenizer.save_model(list_of_args[1])
