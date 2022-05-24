@@ -13,19 +13,19 @@ if __name__ == "__main__":
     dataset_path = list_of_args[0]
     paths = []
 
-    for i in tqdm(range(1,102), desc='Reading directories'):
+    for i in tqdm(range(1,3), desc='Reading directories'):
         path = os.path.join(dataset_path, str(i))
         list_of_files = os.listdir(path)
 
         for file in list_of_files:
-            paths += os.path.join(path, file)
+            paths.append(os.path.join(path, file))
 
     tokenizer = Tokenizer(BPE(unk_token="<unk>"))
     trainer = BpeTrainer(special_tokens=["<s>","<pad>","</s>","<unk>","<mask>"])
 
     tokenizer.pre_tokenizer = Whitespace()
-    files = paths
-    tokenizer.train(files, trainer)
+    
+    tokenizer.train(paths, trainer)
     
     #Save the Tokenizer to disk
     tokenizer.save_model(list_of_args[1])
