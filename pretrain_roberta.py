@@ -25,7 +25,9 @@ if __name__ == "__main__":
     output_path = sys.argv[6]
     # resume_path = sys.argv[7]
 
-    tokenizer = RobertaTokenizer(tokenizer_file=Tokenizer.from_file(tokenizer_path))
+    from transformers import PreTrainedTokenizerFast
+
+    tokenizer = PreTrainedTokenizerFast(tokenizer_file=tokenizer_path)
     config = RobertaConfig.from_pretrained(model_path)
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
