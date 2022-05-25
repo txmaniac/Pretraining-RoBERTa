@@ -5,10 +5,10 @@ from transformers import (
     Trainer, 
     TrainingArguments, 
     DataCollatorForLanguageModeling,
-    RobertaTokenizerFast
+    RobertaTokenizer
 )
 
-from tokenizers import Tokenizer 
+from tokenizers import Tokenizer
 
 import time
 from utils import read_dataset
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     output_path = sys.argv[6]
     # resume_path = sys.argv[7]
 
-    tokenizer = RobertaTokenizerFast(tokenizer_file=Tokenizer.from_file(tokenizer_path))
+    tokenizer = RobertaTokenizer(tokenizer_file=Tokenizer.from_file(tokenizer_path))
     config = RobertaConfig.from_pretrained(model_path)
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
