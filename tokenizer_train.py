@@ -29,4 +29,4 @@ if __name__ == "__main__":
     tokenizer.train(paths, trainer)
     
     #Save the Tokenizer to disk
-    tokenizer.save(os.path.join(tokenizer_save_path,"tokenizer.json"))
+    tokenizer.save_pretrained(os.path.join(tokenizer_save_path))
