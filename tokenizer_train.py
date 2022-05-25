@@ -1,7 +1,7 @@
 import os
 from tqdm import tqdm
 import sys
-from transformers import RobertaTokenizer
+from transformers import AutoTokenizer
 from datasets import load_dataset
 
 if __name__ == "__main__":
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     dataset = load_dataset('text', data_files=path, split='train', streaming=True)
 
-    old_tokenizer = RobertaTokenizer.from_pretrained(model_path)
+    old_tokenizer = AutoTokenizer.from_pretrained(model_path)
     new_tokenizer = old_tokenizer.train_new_from_iterator(dataset, 30000)
     #Save the Tokenizer to disk
     new_tokenizer.save_pretrained(os.path.join(model_path))
