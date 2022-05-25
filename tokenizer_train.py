@@ -8,7 +8,7 @@ if __name__ == "__main__":
     list_of_args = sys.argv[1:]
 
     path = list_of_args[0]
-    model_path = list_of_args[2]
+    model_path = list_of_args[1]
     
     # paths = []
 
