@@ -19,7 +19,7 @@ if __name__ == "__main__":
     #     for file in list_of_files:
     #         paths.append(os.path.join(path, file))
 
-    dataset = load_dataset('text', data_files=path, split='train', streaming=True)
+    dataset = load_dataset('text', data_files=path, split='train')
 
     old_tokenizer = AutoTokenizer.from_pretrained('roberta-base')
     new_tokenizer = old_tokenizer.train_new_from_iterator(dataset, 30000)
