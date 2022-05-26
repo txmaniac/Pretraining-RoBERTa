@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     dataset = load_dataset('text', data_files=path, split='train', streaming=True)
 
-    old_tokenizer = AutoTokenizer.from_pretrained(model_path)
+    old_tokenizer = AutoTokenizer.from_pretrained('roberta-base')
     new_tokenizer = old_tokenizer.train_new_from_iterator(dataset, 30000)
     #Save the Tokenizer to disk
     new_tokenizer.save_pretrained(os.path.join(model_path))
