@@ -65,6 +65,6 @@ def read_dataset(path, model_path):
         
         return inputs
 
-    tokenized_dataset = dataset.map(preprocess_function, batched=True, )
+    tokenized_dataset = dataset.map(preprocess_function, batched=True)
 
     return tokenized_dataset, len(tokenized_dataset)
