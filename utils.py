@@ -48,7 +48,7 @@ def extract_sentences(path, model_path):
 def read_dataset(path, model_path):
     # takes dataset directory path and fetches all the contents of each and every txt file and stores them as a dataset object from HuggingFace
     
-    dataset = load_dataset('text', data_files=path, streaming=True)
+    dataset = load_dataset('text', data_files=path, split='train', streaming=True)
 
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
 
@@ -57,14 +57,19 @@ def read_dataset(path, model_path):
         
         inputs = tokenizer(
             sentences,
-            truncation="True",
-            padding="True",
+            max_length=512,
+            truncation=True,
+            padding='max_length',
+            return_tensors='pt'
         )
 
-        inputs['labels'] = sentences
+        inputs['labels'] = inputs['input_ids']
         
         return inputs
 
     tokenized_dataset = dataset.map(preprocess_function, batched=True)
+    tokenized_dataset = tokenized_dataset.remove_columns('text')
+    tokenized_torch_dataset = tokenized_dataset.with_format("torch")
+    
 
-    return tokenized_dataset, len(tokenized_dataset)
+    return tokenized_torch_dataset
