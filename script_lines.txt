@@ -1,0 +1,11 @@
+python3 -V
+pip3 --default-timeout=3000 install -r requirements.txt
+python3 pretrain_roberta.py /workspace/data/U2D2P2I/PrivaSeer/train.txt /workspace/data/U2D2P2I/PrivaSeer/eval.txt /workspace/data/roberta-base /workspace/data/roberta-tokenizer/tokenizer.json /workspace/data/pretraining-on-privaseer/logs /workspace/data/pretraining-on-privaseer/checkpoints 
+
+python3 -V
+pip3 --default-timeout=3000 install -r requirements.txt
+python3 tokenizer_train.py /workspace/data/U2D2P2I/PrivaSeer/train.txt /workspace/data/roberta-base
+
+python3 -V
+pip3 --default-timeout=3000 install -r requirements.txt
+python3 convert_policies_into_sentences_txt.py /workspace/data/U2D2P2I/PrivaSeer /workspace/data/U2D2P2I/PrivaSeer_Demoset /workspace/data/roberta-base

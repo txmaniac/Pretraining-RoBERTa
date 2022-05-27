@@ -1,0 +1,7 @@
+torchvision
+transformers
+datasets
+numpy
+pandas
+tokenizers
+nltk

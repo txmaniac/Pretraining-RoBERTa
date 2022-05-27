@@ -1,11 +1,13 @@
 from encodings import utf_8
-from datasets import Dataset
+from datasets import load_dataset
 import torch
 from tqdm import tqdm
 # from transformers
 import os
 import sys
 import string
+# import nltk
+# nltk.download('punkt')
 from nltk import sent_tokenize
 from transformers import RobertaTokenizer
 
@@ -26,21 +28,48 @@ def normalize_answer(s):
 
   return remove_punc(white_space_fix(lower(s)))
 
+
+def extract_sentences(path, model_path):
+    tokenizer = RobertaTokenizer.from_pretrained(model_path)
+    list_of_folders = os.listdir(path)
+    list_of_sentences = []
+
+    for folder in tqdm(list_of_folders, desc='Converting to sentences'):
+        folder_path = os.path.join(path, folder)
+        list_of_files = os.listdir(folder_path)
+        for file in list_of_files:
+            with open(os.path.join(folder_path  ,file),encoding="utf-8") as f:
+                text = f.read()
+                text = normalize_answer(text)
+                list_of_sentences += sent_tokenize(text)
+
+    return list_of_sentences
+
 def read_dataset(path, model_path):
     # takes dataset directory path and fetches all the contents of each and every txt file and stores them as a dataset object from HuggingFace
+    
+    dataset = load_dataset('text', data_files=path, split='train', streaming=True)
+
     tokenizer = RobertaTokenizer.from_pretrained(model_path)
-    list_of_files = os.listdir(path)
-    list_of_sentences = []
-    for file in tqdm(list_of_files, desc='Converting policies to sentences',position=0, leave=True):
-        with open(os.path.join(path,file),encoding="utf-8") as f:
-            text = f.read()
-            text = normalize_answer(text)
-            list_of_sentences += sent_tokenize(text)    
 
-    data_dict = {'sentences': list_of_sentences, 'labels': tokenizer(list_of_sentences, truncation=True, padding=True)['input_ids']}
+    def preprocess_function(examples):
+        sentences = [q.strip() for q in examples['text']]
+        
+        inputs = tokenizer(
+            sentences,
+            max_length=512,
+            truncation=True,
+            padding='max_length',
+            return_tensors='pt'
+        )
 
-    dataset = Dataset.from_dict(data_dict)
-    dataset = dataset.map(lambda examples: tokenizer(examples['sentences'], truncation=True, padding=True), batched=True)
-    dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'labels'])
+        inputs['labels'] = inputs['input_ids']
+        
+        return inputs
 
-    return dataset
+    tokenized_dataset = dataset.map(preprocess_function, batched=True)
+    tokenized_dataset = tokenized_dataset.remove_columns('text')
+    tokenized_torch_dataset = tokenized_dataset.with_format("torch")
+    
+
+    return tokenized_torch_dataset
