@@ -6,8 +6,8 @@ from tqdm import tqdm
 import os
 import sys
 import string
-import nltk
-nltk.download('punkt')
+# import nltk
+# nltk.download('punkt')
 from nltk import sent_tokenize
 from transformers import RobertaTokenizer
 
