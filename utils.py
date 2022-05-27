@@ -6,8 +6,8 @@ from tqdm import tqdm
 import os
 import sys
 import string
-import nltk
-nltk.download('punkt')
+# import nltk
+# nltk.download('punkt')
 from nltk import sent_tokenize
 from transformers import RobertaTokenizer
 
@@ -65,6 +65,6 @@ def read_dataset(path, model_path):
         
         return inputs
 
-    tokenized_dataset = dataset.map(preprocess_function, batched=True)
+    tokenized_dataset = dataset.map(preprocess_function, batched=True, )
 
     return tokenized_dataset, len(tokenized_dataset)
