@@ -49,7 +49,7 @@ if __name__ == "__main__":
         output_dir = output_path,
         evaluation_strategy="steps",
         per_device_train_batch_size=train_batch_size,
-        learning_rate=6e-4,
+        learning_rate=1e-4,
         warmup_steps=300,
         eval_steps = 100,
         save_steps = 50000,
