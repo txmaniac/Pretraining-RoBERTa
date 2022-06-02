@@ -48,6 +48,7 @@ if __name__ == "__main__":
         do_train=True,
         output_dir = output_path,
         evaluation_strategy="steps",
+        logging_steps=100,
         per_device_train_batch_size=train_batch_size,
         learning_rate=1e-4,
         warmup_steps=300,
