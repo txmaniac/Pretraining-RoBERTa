@@ -6,8 +6,8 @@ from tqdm import tqdm
 import os
 import sys
 import string
-# import nltk
-# nltk.download('punkt')
+import nltk
+nltk.download('punkt')
 from nltk import sent_tokenize
 from transformers import RobertaTokenizer
 
@@ -30,7 +30,6 @@ def normalize_answer(s):
 
 
 def extract_sentences(path, model_path):
-    tokenizer = RobertaTokenizer.from_pretrained(model_path)
     list_of_folders = os.listdir(path)
     list_of_sentences = []
 
