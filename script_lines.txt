@@ -8,7 +8,7 @@ python3 tokenizer_train.py /workspace/data/U2D2P2I/PrivaSeer/train.txt /workspac
 
 python3 -V
 pip3 --default-timeout=3000 install -r requirements.txt
-python3 convert_policies_into_sentences_txt.py /workspace/data/U2D2P2I/PrivaSeer_Demoset /workspace/data/roberta-base
+python3 convert_policies_into_sentences_txt.py /workspace/data/U2D2P2I/PrivaSeer_Demoset /workspace/data/roberta-tokenizer-trained-model
 
 python3 -V
 pip3 --default-timeout=3000 install -r requirements.txt
