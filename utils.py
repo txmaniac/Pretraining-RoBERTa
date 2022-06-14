@@ -6,8 +6,8 @@ from tqdm import tqdm
 import os
 import sys
 import string
-# import nltk
-# nltk.download('punkt')
+import nltk
+nltk.download('punkt')
 from nltk import sent_tokenize
 from transformers import AutoTokenizer
 
@@ -30,7 +30,6 @@ def normalize_answer(s):
 
 
 def extract_sentences(path, model_path):
-    tokenizer = AutoTokenizer.from_pretrained(model_path)
     list_of_folders = os.listdir(path)
     list_of_sentences = []
 
@@ -45,7 +44,7 @@ def extract_sentences(path, model_path):
 
     return list_of_sentences
 
-def read_dataset(path, model_path):
+def read_dataset_pretraining(path, model_path):
     # takes dataset directory path and fetches all the contents of each and every txt file and stores them as a dataset object from HuggingFace
     
     dataset = load_dataset('text', data_files=path, split='train', streaming=True)
