@@ -11,7 +11,7 @@ from transformers import (
 from tokenizers import Tokenizer
 
 import time
-from utils import read_dataset_pretraining
+from utils import read_dataset
 import os
 import sys
 
@@ -32,8 +32,8 @@ if __name__ == "__main__":
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
 
     print('Loading dataset...')
-    train_dataset = read_dataset_pretraining(train_dir_path, model_path)
-    eval_dataset = read_dataset_pretraining(eval_dir_path, model_path)
+    train_dataset = read_dataset(train_dir_path, model_path)
+    eval_dataset = read_dataset(eval_dir_path, model_path)
 
     print('Loading Collator...')
     train_batch_size = 10
