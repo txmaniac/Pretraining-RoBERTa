@@ -11,7 +11,7 @@ from transformers import (
 from tokenizers import Tokenizer
 
 import time
-from utils import read_dataset
+from utils import read_dataset_pretraining
 import os
 import sys
 
@@ -23,21 +23,21 @@ if __name__ == "__main__":
     tokenizer_path = sys.argv[4]
     logging_path = sys.argv[5]
     output_path = sys.argv[6]
+    resume_chckpt = int(sys.argv[7])
     # resume_path = sys.argv[7]
 
-    from transformers import PreTrainedTokenizerFast
-
-    tokenizer = PreTrainedTokenizerFast(tokenizer_file=tokenizer_path)
+    tokenizer = RobertaTokenizer.from_pretrained(tokenizer_path)
     config = RobertaConfig.from_pretrained(model_path)
 
     model = RobertaForMaskedLM.from_pretrained(model_path, config=config)
 
     print('Loading dataset...')
-    train_dataset = read_dataset(train_dir_path, model_path)
-    eval_dataset = read_dataset(eval_dir_path, model_path)
+    train_dataset = read_dataset_pretraining(train_dir_path, model_path)
+    eval_dataset = read_dataset_pretraining(eval_dir_path, model_path)
 
     print('Loading Collator...')
     train_batch_size = 10
+    eval_batch_size = 10
     
     data_collator = DataCollatorForLanguageModeling(
         mlm=True,
@@ -50,10 +50,12 @@ if __name__ == "__main__":
         do_train=True,
         output_dir = output_path,
         evaluation_strategy="steps",
+        logging_steps=1000,
         per_device_train_batch_size=train_batch_size,
-        learning_rate=6e-4,
+        per_device_eval_batch_size=eval_batch_size,
+        learning_rate=1e-4,
         warmup_steps=300,
-        eval_steps = 100,
+        eval_steps = 1000,
         save_steps = 50000,
         adam_epsilon=1e-6,
         adam_beta1=0.9,
@@ -74,7 +76,12 @@ if __name__ == "__main__":
 
     print('Training starts...')
     start = time.time()
-    trainer.train()
+    
+    if resume_chckpt == 1:
+        trainer.train(resume_from_checkpoint=True)
+    else:
+        trainer.train()
+
     end = time.time()
 
     print(f'Training completed in {end-start}')
